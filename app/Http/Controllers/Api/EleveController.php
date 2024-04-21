@@ -108,25 +108,8 @@ class EleveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
-    {
-        $eleve = Eleve::find($id);
-        if ($eleve) 
-        {
-            return response()->json([
-                'status' => 200, 
-                'eleve' => $eleve
-            ], 200);
-        }else
-        {
-            return response()->json([
-                'status'=>404,
-                'message' => "Aucun élève n'a été trouvé"
-            ], 404);
-        }
-    }
 
-
+  
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
