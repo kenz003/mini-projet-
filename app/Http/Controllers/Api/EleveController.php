@@ -40,12 +40,25 @@ class EleveController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'name.required' => "Le nom est obligatoire.",
+            'name.string' => "Le nom doit être une chaîne de caractères.",
+            'name.regex' => "Le nom ne doit contenir que des lettres et des espaces.",
+            'name.min' => "Le nom doit contenir au moins :min caractères.",
+            'name.max' => "Le nom ne peut pas dépasser :max caractères.",
+            'grade.required' => "Le niveau est obligatoire.",
+            'email.required' => "L'adresse e-mail est obligatoire.",
+            'email.email' => "L'adresse e-mail doit être une adresse e-mail valide.",
+            'email.unique' => "Cette adresse e-mail est déjà utilisée.",
+            'phone.required' => "Le numéro de téléphone est obligatoire.",
+            'phone.digits' => "Le numéro de téléphone doit contenir :digits chiffres.",
+        ];
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:2|max:255|regex:/^[a-zA-Z\s]*$/',
             'grade' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:eleves',
             'phone' => 'required|digits:10',
-        ]);
+        ],$messages);
         if($validator->fails())
         {
             return response()->json([
