@@ -13,7 +13,7 @@ class Eleve extends Model
         'name',
         'grade',
         'phone',
-        'user_id', // Foreign key linking to User
+        
     ];
 
     public function user()

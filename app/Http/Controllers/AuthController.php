@@ -1,5 +1,8 @@
 <?php
-
+/*modification : 
+   + nom : il faut securiser plus le nom
+   + email 
+*/
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -15,7 +18,6 @@ class AuthController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'grade' => 'required|string',
             'email' => 'required|email|unique:users',  
             'phone' => 'required|string',
             'password' => 'required|min:6|confirmed', 
@@ -26,22 +28,12 @@ class AuthController extends Controller
         // Créer un User
         $user = User::create($validatedData);
 
-        // Créer un Eleve
-        $eleve = Eleve::create([
-            'name' => $validatedData['name'],
-            'grade' => $validatedData['grade'],
-            'phone' => $validatedData['phone'],
-            'user_id' => $user->id, // Lier l'Eleve à l'utilisateur
-            
-        ]);
         
-
         // Générer un token pour le nouvel utilisateur
         $token = $user->createToken('Personal Access Token')->plainTextToken;
 
         return response()->json([
             'user' => $user, // Assurez-vous de renvoyer le bon objet
-            'eleve' => $eleve,
             'token' => $token,
         ], 201);  
     }
